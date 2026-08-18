@@ -25,7 +25,7 @@ export default function Chatbot() {
   const [isLoading, setIsLoading] = useState(false);
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('gemini_api_key') || '');
   const [showKeyInput, setShowKeyInput] = useState(false);
-  
+
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
@@ -57,16 +57,16 @@ export default function Chatbot() {
 
     const userText = inputMessage.trim();
     setInputMessage('');
-    
+
     // Append user message
     const updatedMessages = [...messages, { sender: 'user', text: userText }];
     setMessages(updatedMessages);
     setIsLoading(true);
 
-    const activeKey = apiKey.trim() || import.meta.env.VITE_GEMINI_API_KEY;
+    const activeKey = (apiKey.trim() || import.meta.env.VITE_GEMINI_API_KEY || '').trim();
 
-    // Default Smart Local AI Travel Guide Response (Always works smoothly)
-    if (!activeKey || !activeKey.startsWith('AIzaSy')) {
+    // If no API key is provided at all, fall back to local simulated response
+    if (!activeKey) {
       setTimeout(() => {
         let botReply = '';
         const lowerText = userText.toLowerCase();
@@ -89,10 +89,10 @@ export default function Chatbot() {
       return;
     }
 
-    // Optional Gemini Live API Integration when valid Key provided
+    // Call Gemini API with user key (using gemini-3.6-flash model)
     try {
-      let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`;
-      
+      let apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${activeKey}`;
+
       let response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -101,29 +101,25 @@ export default function Chatbot() {
         })
       });
 
-      if (!response.ok) {
-        apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeKey}`;
-        response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ role: 'user', parts: [{ text: `${SYSTEM_PROMPT}\n\nคำถามจากผู้ใช้: ${userText}` }] }]
-          })
-        });
-      }
-
       const data = await response.json();
 
       if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
         const aiReply = data.candidates[0].content.parts[0].text;
         setMessages(prev => [...prev, { sender: 'bot', text: aiReply }]);
+      } else if (data.error) {
+        console.error("Gemini API Response Error:", data.error);
+        setMessages(prev => [
+          ...prev,
+          { sender: 'bot', text: `ขออภัยครับ เกิดข้อผิดพลาดจาก Gemini API: "${data.error.message || 'API Key ไม่ถูกต้อง'}" (รหัสข้อผิดพลาด: ${data.error.code || 'UNAUTHENTICATED'})` }
+        ]);
       } else {
-        throw new Error('Fallback to local guide');
+        throw new Error('ไม่ได้รับคำตอบจาก Gemini API');
       }
     } catch (err) {
+      console.error("Gemini Fetch Error:", err);
       setMessages(prev => [
-        ...prev, 
-        { sender: 'bot', text: `น้องเมตยินดีช่วยเหลือครับ! สำหรับทริปท่องเที่ยวไทย แนะนำพิกัดยอดฮิตอย่าง เชียงใหม่ ภูเก็ต และกระบี่ มีแพ็กเกจทัวร์พร้อมส่วนลดพิเศษสอบถามได้เลยครับ 🌿` }
+        ...prev,
+        { sender: 'bot', text: `ขออภัยครับ ไม่สามารถเชื่อมต่อกับ Gemini API ได้ในขณะนี้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตหรือความถูกต้องของ API Key` }
       ]);
     } finally {
       setIsLoading(false);
@@ -133,7 +129,7 @@ export default function Chatbot() {
   return (
     <div className="chatbot-wrapper">
       {/* Floating Toggle Button */}
-      <button 
+      <button
         className={`chatbot-toggle-btn ${isOpen ? 'active' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle AI Travel Assistant"
@@ -166,14 +162,14 @@ export default function Chatbot() {
             </div>
 
             <div className="header-actions">
-              <button 
+              <button
                 className="icon-action-btn"
                 onClick={() => setShowKeyInput(!showKeyInput)}
                 title="ตั้งค่า Gemini API Key ฟรี"
               >
                 <Sparkles size={16} />
               </button>
-              <button 
+              <button
                 className="icon-action-btn"
                 onClick={() => setIsOpen(false)}
                 title="ปิด"
@@ -188,17 +184,17 @@ export default function Chatbot() {
             <form className="api-key-banner" onSubmit={handleSaveApiKey}>
               <label>Gemini API Key (ฟรี 100%):</label>
               <div className="key-input-row">
-                <input 
-                  type="password" 
-                  placeholder="วาง AIzaSy..." 
-                  value={apiKey} 
+                <input
+                  type="password"
+                  placeholder="วาง AIzaSy..."
+                  value={apiKey}
                   onChange={(e) => setApiKey(e.target.value)}
                 />
                 <button type="submit" className="btn btn-primary btn-sm">บันทึก</button>
               </div>
-              <a 
-                href="https://aistudio.google.com/app/apikey" 
-                target="_blank" 
+              <a
+                href="https://aistudio.google.com/app/apikey"
+                target="_blank"
                 rel="noreferrer"
                 className="key-link"
               >
@@ -252,8 +248,8 @@ export default function Chatbot() {
 
           {/* Input Form */}
           <form className="chatbot-input-form" onSubmit={handleSendMessage}>
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="ถามน้องเมตเกี่ยวกับทริปท่องเที่ยวไทย..."
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
