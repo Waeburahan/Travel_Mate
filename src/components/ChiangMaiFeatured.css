@@ -1,0 +1,231 @@
+.chiangmai-section {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.chiangmai-section::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(2, 132, 199, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cm-banner-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 50px auto;
+}
+
+.cm-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--accent);
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.cm-title {
+  font-size: 2.5rem;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.cm-subtitle {
+  color: var(--gray-400);
+  font-size: 1.05rem;
+}
+
+.cm-interactive-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 32px;
+  align-items: stretch;
+}
+
+/* Showcase Left */
+.cm-main-showcase {
+  height: 520px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cm-showcase-image {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.cm-showcase-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.cm-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.2) 0%,
+    rgba(15, 23, 42, 0.5) 50%,
+    rgba(15, 23, 42, 0.95) 100%
+  );
+}
+
+.cm-showcase-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 36px;
+  z-index: 2;
+}
+
+.cm-spot-tag {
+  background: var(--primary);
+  color: var(--white);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.cm-spot-name {
+  font-size: 2rem;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.cm-spot-desc {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 20px;
+  max-width: 600px;
+}
+
+.cm-showcase-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.feature-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  color: var(--gray-200);
+}
+
+.cm-action-btn {
+  padding: 12px 28px;
+}
+
+/* Spots List Right */
+.cm-spots-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cm-list-title {
+  font-size: 1.1rem;
+  color: var(--gray-300);
+  margin-bottom: 8px;
+}
+
+.cm-spot-item {
+  display: flex;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.cm-spot-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.cm-spot-item.selected {
+  background: rgba(2, 132, 199, 0.2);
+  border-color: var(--primary);
+}
+
+.spot-thumb {
+  width: 90px;
+  height: 70px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.spot-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spot-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.spot-tag-sm {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.spot-name-sm {
+  font-size: 1rem;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+
+.spot-desc-sm {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .cm-interactive-grid {
+    grid-template-columns: 1fr;
+  }
+  .cm-main-showcase {
+    height: 420px;
+  }
+}
