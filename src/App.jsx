@@ -9,6 +9,7 @@ import WhyChooseUs from './components/WhyChooseUs';
 import TravelInspiration from './components/TravelInspiration';
 import Footer from './components/Footer';
 import DetailModal from './components/DetailModal';
+import Chatbot from './components/Chatbot';
 
 export default function App() {
   const [selectedModalItem, setSelectedModalItem] = useState(null);
@@ -62,7 +63,10 @@ export default function App() {
       {/* 9. Footer */}
       <Footer />
 
-      {/* 10. Detail & Booking Modal */}
+      {/* 10. AI Travel Assistant Chatbot */}
+      <Chatbot />
+
+      {/* 11. Detail & Booking Modal */}
       {selectedModalItem && (
         <DetailModal 
           item={selectedModalItem} 
