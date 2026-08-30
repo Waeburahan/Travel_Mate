@@ -14,6 +14,7 @@ import Chatbot from './components/Chatbot';
 export default function App() {
   const [selectedModalItem, setSelectedModalItem] = useState(null);
   const [modalType, setModalType] = useState('tour');
+  const [searchFilter, setSearchFilter] = useState(null);
 
   const handleOpenDetail = (item, type = 'tour') => {
     setSelectedModalItem(item);
@@ -21,7 +22,8 @@ export default function App() {
   };
 
   const handleSearchSubmit = (searchParams) => {
-    // Smooth scroll to tours section and highlight search filter
+    setSearchFilter(searchParams);
+    // Smooth scroll to tours section
     const toursSection = document.getElementById('tours');
     if (toursSection) {
       toursSection.scrollIntoView({ behavior: 'smooth' });
@@ -44,12 +46,17 @@ export default function App() {
 
       {/* 4. Explore Experiences */}
       <ExploreExperiences onSelectCategory={(catId) => {
+        setSearchFilter({ category: catId, location: '', guests: '' });
         const tours = document.getElementById('tours');
         if (tours) tours.scrollIntoView({ behavior: 'smooth' });
       }} />
 
       {/* 5. Popular Tours */}
-      <PopularTours onSelectTour={(tour) => handleOpenDetail(tour, 'tour')} />
+      <PopularTours 
+        searchFilter={searchFilter} 
+        onClearSearch={() => setSearchFilter(null)}
+        onSelectTour={(tour) => handleOpenDetail(tour, 'tour')} 
+      />
 
       {/* 6. Chiang Mai Spotlight / Featured Destination */}
       <ChiangMaiFeatured onSelectSpot={(spot) => handleOpenDetail(spot, 'spot')} />
@@ -68,10 +75,10 @@ export default function App() {
 
       {/* 11. Detail & Booking Modal */}
       {selectedModalItem && (
-        <DetailModal 
-          item={selectedModalItem} 
-          type={modalType} 
-          onClose={() => setSelectedModalItem(null)} 
+        <DetailModal
+          item={selectedModalItem}
+          type={modalType}
+          onClose={() => setSelectedModalItem(null)}
         />
       )}
     </div>

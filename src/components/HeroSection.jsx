@@ -8,6 +8,40 @@ export default function HeroSection({ onSearchSubmit }) {
   const [searchCategory, setSearchCategory] = useState('all');
   const [searchGuests, setSearchGuests] = useState('2');
 
+  // Dynamic Category Options depending on selected Location
+  const getCategoryOptions = (location) => {
+    const allCategories = [
+      { value: 'all', label: 'ทุกประเภทกิจกรรม' },
+      { value: 'beach', label: 'ชายหาด & ทะเล' },
+      { value: 'adventure', label: 'ผจญภัย & ธรรมชาติ' },
+      { value: 'culture', label: 'วัฒนธรรม & ไหว้พระ' },
+      { value: 'food', label: 'อาหาร & สตรีทฟู้ด' },
+      { value: 'nature', label: 'ภูเขา & น้ำตก' }
+    ];
+
+    if (location === 'เชียงใหม่') {
+      // เชียงใหม่ไม่มีทะเล/ชายหาด
+      return allCategories.filter(c => c.value !== 'beach');
+    }
+    if (location === 'กรุงเทพฯ') {
+      // กรุงเทพฯ ไม่มีภูเขา/ทะเล
+      return allCategories.filter(c => c.value !== 'beach' && c.value !== 'nature');
+    }
+    return allCategories;
+  };
+
+  const handleLocationChange = (e) => {
+    const loc = e.target.value;
+    setSearchLocation(loc);
+    // If selected category is 'beach' but user switched to 'เชียงใหม่', reset category
+    if (loc === 'เชียงใหม่' && searchCategory === 'beach') {
+      setSearchCategory('all');
+    }
+    if (loc === 'กรุงเทพฯ' && (searchCategory === 'beach' || searchCategory === 'nature')) {
+      setSearchCategory('all');
+    }
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     onSearchSubmit({
@@ -90,7 +124,7 @@ export default function HeroSection({ onSearchSubmit }) {
               </label>
               <select
                 value={searchLocation}
-                onChange={(e) => setSearchLocation(e.target.value)}
+                onChange={handleLocationChange}
                 className="form-input"
               >
                 <option value="">ทุกจังหวัดในไทย</option>
@@ -112,11 +146,9 @@ export default function HeroSection({ onSearchSubmit }) {
                 onChange={(e) => setSearchCategory(e.target.value)}
                 className="form-input"
               >
-                <option value="all">ทุกประเภทกิจกรรม</option>
-                <option value="beach">ชายหาด & ทะเล</option>
-                <option value="adventure">ผจญภัย & ธรรมชาติ</option>
-                <option value="culture">วัฒนธรรม & ไหว้พระ</option>
-                <option value="food">อาหาร & สตรีทฟู้ด</option>
+                {getCategoryOptions(searchLocation).map(cat => (
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
+                ))}
               </select>
             </div>
 

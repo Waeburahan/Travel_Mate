@@ -20,10 +20,10 @@
   --gray-700: #334155;
   --gray-800: #1e293b;
   --gray-900: #0f172a;
-  
+
   --font-heading: 'Prompt', 'Plus Jakarta Sans', sans-serif;
   --font-body: 'Prompt', 'Plus Jakarta Sans', sans-serif;
-  
+
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
@@ -57,7 +57,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   font-weight: 700;
   color: var(--gray-900);
@@ -201,13 +206,16 @@ img {
 ::-webkit-scrollbar {
   width: 10px;
 }
+
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 5px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
