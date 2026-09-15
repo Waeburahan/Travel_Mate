@@ -171,6 +171,7 @@
   color: rgba(255, 255, 255, 0.8);
   margin-bottom: 18px;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -209,7 +210,71 @@
 }
 
 @media (max-width: 768px) {
+  .destinations-filter {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-bottom: 24px;
+  }
+  .destinations-filter::-webkit-scrollbar {
+    display: none;
+  }
+  .filter-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
   .destinations-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .destination-card {
+    height: 280px;
+  }
+  .card-bottom-info {
+    padding: 16px;
+  }
+  .card-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .destination-card {
+    height: 240px;
+    border-radius: var(--radius-md);
+  }
+  .card-bottom-info {
+    padding: 14px;
+  }
+  .card-top-info,
+  .spotlight-tag {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+  }
+  .region-badge,
+  .rating-badge,
+  .spotlight-tag {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
+  .card-title {
+    font-size: 1.15rem;
+    margin-bottom: 4px;
+  }
+  .card-tagline {
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+  .card-action {
+    padding-top: 10px;
+  }
+  .explore-btn {
+    padding: 6px 14px;
+    font-size: 0.8rem;
   }
 }

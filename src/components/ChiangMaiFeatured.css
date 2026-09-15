@@ -216,6 +216,7 @@
   font-size: 0.8rem;
   color: var(--gray-400);
   display: -webkit-box;
+  line-clamp: 1;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -224,8 +225,45 @@
 @media (max-width: 1024px) {
   .cm-interactive-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
   .cm-main-showcase {
     height: 420px;
+  }
+}
+
+@media (max-width: 640px) {
+  .cm-title {
+    font-size: 1.6rem;
+  }
+  .cm-main-showcase {
+    height: 260px;
+    border-radius: var(--radius-md);
+  }
+  .cm-showcase-content {
+    padding: 16px;
+  }
+  .cm-spot-name {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+  }
+  .cm-spot-desc {
+    font-size: 0.82rem;
+    margin-bottom: 10px;
+  }
+  .feature-pill {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
+  .cm-action-btn {
+    padding: 8px 18px;
+    font-size: 0.82rem;
+  }
+  .spot-thumb {
+    width: 65px;
+    height: 52px;
+  }
+  .spot-name-sm {
+    font-size: 0.9rem;
   }
 }

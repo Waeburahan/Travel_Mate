@@ -204,7 +204,8 @@ img {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -218,4 +219,52 @@ img {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Responsive Core Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .section-padding {
+    padding: 60px 0;
+  }
+
+  .section-header {
+    margin-bottom: 32px;
+  }
+
+  .section-header .main-title {
+    font-size: 1.75rem;
+    margin-bottom: 10px;
+  }
+
+  .section-header .desc {
+    font-size: 0.95rem;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+
+  .section-padding {
+    padding: 48px 0;
+  }
+
+  .section-header .main-title {
+    font-size: 1.5rem;
+  }
+
+  .badge {
+    padding: 4px 10px;
+    font-size: 0.78rem;
+  }
 }
